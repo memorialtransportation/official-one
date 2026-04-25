@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorial Transportation | Airport Linehaul & Expedited Freight</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;600;700&family=Work+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #8ac33c;
+            --accent-dark: #6fa024;
+            --text: #2d2d2d;
+            --text-light: #666;
+            --bg: #ffffff;
+            --bg-alt: #f5f7f3;
+            --border: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 3px solid var(--accent);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 85px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover {
+            transform: scale(1.02);
+        }
+
+        .logo {
+            height: 55px;
+            width: auto;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .company-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-dark);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--accent-dark);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 85px;
+            min-height: calc(100vh - 85px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('hero.jpg') center center / contain no-repeat;
+            background-color: #ffffff;
+            height: 60vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 50px,
+                    rgba(138, 195, 60, 0.03) 50px,
+                    rgba(138, 195, 60, 0.03) 100px
+                );
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            line-height: 1.1;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-accent {
+            color: var(--accent);
+            display: block;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            line-height: 1.8;
+            font-weight: 300;
+            animation: slideInLeft 0.8s ease-out 0.2s backwards;
+        }
+
+        /* Content Section */
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            letter-spacing: 2px;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .about-content {
+            background: var(--bg-alt);
+            padding: 3rem;
+            border-radius: 8px;
+            border-left: 6px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--text);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            border-top: 4px solid var(--accent);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(138, 195, 60, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 8px;
+            border-left: 6px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .contact-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            color: var(--primary);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-top: 3px;
+        }
+
+        .contact-info a {
+            color: var(--accent-dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .contact-info a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        /* Login Portal */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 85px - 200px);
+            padding: 4rem 2rem;
+        }
+
+        .login-container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.12);
+            border-top: 6px solid var(--accent);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo img {
+            height: 80px;
+            width: auto;
+        }
+
+        .login-container h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: 1px;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Work Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(138, 195, 60, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            margin-top: 1rem;
+        }
+
+        .login-btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(138, 195, 60, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #c33;
+            font-size: 0.95rem;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .success-message {
+            background: #efe;
+            color: #2a2;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #2a2;
+            font-size: 0.95rem;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive */
+        .contact-hero {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 7rem 2rem 5rem;
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 1rem;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                width: 100%;
+                flex-direction: column;
+                gap: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .nav-links.active {
+                max-height: 300px;
+                margin-top: 1rem;
+            }
+
+            .nav-links a {
+                padding: 0.8rem 0;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .content-section {
+                padding: 3rem 1.5rem;
+            }
+
+            main {
+                margin-top: 70px;
+            }
+
+            .nav-container {
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo-container" onclick="showPage('about')">
+                <img class="logo" id="navLogo" alt="Memorial Transportation Logo">
+                <span class="company-name">MEMORIAL TRANSPORTATION</span>
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="active" onclick="showPage('about'); return false;">About</a></li>
+                <li><a href="#" onclick="showPage('contact'); return false;">Contact</a></li>
+                <li><a href="#" onclick="showPage('portal'); return false;">Employee Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- About Page -->
+        <div id="about-page" class="page active">
+            <section class="hero"></section>
+
+            <section class="content-section">
+                <h2 class="section-title">Carrier Overview</h2>
+                <div class="about-content">
+                    Memorial Transportation LLC is an Atlanta-based carrier specializing in time-sensitive freight, airport cargo linehaul, and dedicated lane operations. We focus on reliability, speed, and consistent execution across high-priority shipments. With a fleet of 26 trucks and team driver capability, we integrate seamlessly into structured freight networks serving freight forwarders, airlines, and integrators across the Southeast, Southwest, California, Northeast, and nationwide.
+                    <br><br>
+                    <strong>MC:</strong> MC-1067828 &nbsp; | &nbsp; <strong>DOT:</strong> 3343999 &nbsp; | &nbsp; <strong>DUNS:</strong> 10-126-7294 &nbsp; | &nbsp; <strong>Availability:</strong> 24/7 Dispatch
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">✈️</div>
+                        <h3>Airport Cargo Linehaul</h3>
+                        <p>Cut-time focused operations for airport cargo, freight forwarders, airlines, and integrators.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Expedited Freight</h3>
+                        <p>Reliable capacity for high-priority shipments that need speed, communication, and consistent execution.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h3>Team Drivers</h3>
+                        <p>Two-driver team operations help freight keep moving around the clock with tighter transit windows.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🛣️</div>
+                        <h3>Dedicated Lanes</h3>
+                        <p>Structured freight support for recurring lanes, dedicated customers, and long-term operations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔁</div>
+                        <h3>Drop & Hook</h3>
+                        <p>Flexible trailer movement options to support faster turns and efficient freight networks.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🚛</div>
+                        <h3>Fleet & Equipment</h3>
+                        <p>26-truck fleet with 53' dry vans and team-truck capability for nationwide freight coverage.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Team Driver Advantage</h2>
+                <div class="about-content">
+                    The majority of our fleet runs two-driver team operations — not solo. This is a critical differentiator for time-sensitive freight. With team drivers, trucks keep moving around the clock with no mandatory rest stops, meaning a load that would take a solo driver 2-3 days can arrive in 24-36 hours. For airport linehaul and expedited freight where cut times and on-time delivery are non-negotiable, teams provide the reliability and speed that solo operations simply cannot match. Fewer delays, tighter transit windows, and consistent execution on every lane.
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📍</div>
+                        <h3>Nationwide Coverage</h3>
+                        <p>Southeast, Southwest, California, Northeast, and beyond through an Atlanta-based operation.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🕒</div>
+                        <h3>24/7 Dispatch</h3>
+                        <p>Always-available dispatch support for time-sensitive freight and short-notice capacity needs.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h3>Reliable Partner</h3>
+                        <p>Built for structured freight networks with strong communication and consistent performance.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact-page" class="page">
+            <section class="hero contact-hero">
+                <div class="hero-content">
+                    <h1>
+                        Contact
+                        <span class="hero-accent">Operations</span>
+                    </h1>
+                    <p>Reach out for airport linehaul, expedited freight, dedicated lanes, team-driver capacity, and nationwide dry van service.</p>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Contact Information</h2>
+                
+                <div class="contact-grid">
+                    
+                    </div>
+
+                    <div class="contact-card">
+                        <h3>Call Dispatch</h3>
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div class="contact-info">
+                                <a href="tel:4707558508">470-755-8508</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-card">
+                        <h3>Email Us</h3>
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-info">
+                                <a href="mailto:info@memorialtransportation.com">info@memorialtransportation.com</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-card">
+                        <h3>Carrier Details</h3>
+                        <div class="contact-item">
+                            <div class="contact-icon">📋</div>
+                            <div class="contact-info">
+                                <p>
+                                    MC-1067828<br>
+                                    DOT 3343999<br>
+                                    DUNS 10-126-7294<br>
+                                    Atlanta, Georgia
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-card">
+                        <h3>Service Coverage</h3>
+                        <div class="contact-item">
+                            <div class="contact-icon">🗺️</div>
+                            <div class="contact-info">
+                                <p>
+                                    Nationwide Coverage<br>
+                                    Southeast • Southwest<br>
+                                    California • Northeast & Beyond
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-card">
+                        <h3>Availability</h3>
+                        <div class="contact-item">
+                            <div class="contact-icon">🕒</div>
+                            <div class="contact-info">
+                                <p>
+                                    24/7 Dispatch<br>
+                                    Airport Linehaul<br>
+                                    Expedited • Dedicated
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Employee Portal Page -->
+        <div id="portal-page" class="page">
+            <section class="hero contact-hero">
+                <div class="hero-content">
+                    <h1>
+                        <span class="hero-accent">Employee</span>
+                        Portal
+                    </h1>
+                    <p>Access your employee dashboard and resources.</p>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <div class="login-wrapper">
+                    <div class="login-container">
+                        <div class="login-logo">
+                            <img id="loginLogo" alt="Memorial Transportation Logo">
+                        </div>
+                        <h2>Employee Login</h2>
+                        <div class="error-message" id="errorMsg">Invalid username or password. Please try again.</div>
+                        <div class="success-message" id="successMsg">Login successful! Redirecting...</div>
+                        <form id="loginForm" onsubmit="return handleLogin(event)">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" id="username" name="username" required autocomplete="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" required autocomplete="current-password">
+                            </div>
+                            <button type="submit" class="login-btn" onclick="return handleLogin(event)">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Employee Dashboard Page (shown after successful login) -->
+        <div id="dashboard-page" class="page">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>
+                        Welcome to the
+                        <span class="hero-accent">Employee Dashboard</span>
+                    </h1>
+                    <p>Access your documents and resources below.</p>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2 class="section-title">Your Documents</h2>
+                    <button onclick="handleLogout()" style="padding: 0.8rem 2rem; background: var(--accent); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; font-size: 1rem;">
+                        Logout
+                    </button>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card" style="cursor: pointer;" onclick="alert('Excel file editor will be added here. You can upload and link your Excel files in this section.')">
+                        <div class="feature-icon">📊</div>
+                        <h3>Spreadsheets</h3>
+                        <p>Access and edit company spreadsheets and data files.</p>
+                        <div style="margin-top: 1rem; color: var(--accent); font-weight: 600;">Click to open →</div>
+                    </div>
+                    
+                    <div class="feature-card" style="cursor: pointer;" onclick="alert('Document library will be added here. You can upload important company documents.')">
+                        <div class="feature-icon">📁</div>
+                        <h3>Documents</h3>
+                        <p>View and download important company documents.</p>
+                        <div style="margin-top: 1rem; color: var(--accent); font-weight: 600;">Click to open →</div>
+                    </div>
+                    
+                    <div class="feature-card" style="cursor: pointer;" onclick="alert('Schedule section will be added here.')">
+                        <div class="feature-icon">📅</div>
+                        <h3>Schedule</h3>
+                        <p>Check your work schedule and upcoming shifts.</p>
+                        <div style="margin-top: 1rem; color: var(--accent); font-weight: 600;">Click to open →</div>
+                    </div>
+
+                    <div class="feature-card" style="cursor: pointer;" onclick="alert('Resources section will be added here.')">
+                        <div class="feature-icon">📚</div>
+                        <h3>Resources</h3>
+                        <p>Access training materials and company policies.</p>
+                        <div style="margin-top: 1rem; color: var(--accent); font-weight: 600;">Click to open →</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem; padding: 2rem; background: var(--bg-alt); border-radius: 8px; border-left: 6px solid var(--accent);">
+                    <h3 style="font-family: 'Rajdhani', sans-serif; font-size: 1.6rem; margin-bottom: 1rem; color: var(--primary);">Quick Instructions</h3>
+                    <p style="line-height: 1.8; color: var(--text-light);">
+                        This is your employee dashboard. Once you add Excel files or other documents to the server, you can link them in the cards above. 
+                        Employees will be able to click on each section to access the files they need. You can customize each card to point to different resources.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Memorial Transportation LLC • Atlanta, GA • 24/7 Dispatch • MC-1067828 • DOT 3343999</p>
+    </footer>
+
+    <script>
+        // Load and set logo
+        function setLogo() {
+            document.getElementById('navLogo').src = 'logo.png';
+            document.getElementById('loginLogo').src = 'logo.png';
+        }
+
+        function showPage(pageName) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            const selectedPage = document.getElementById(pageName + '-page');
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+            
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            if (pageName === 'about') navLinks[0].classList.add('active');
+            if (pageName === 'contact') navLinks[1].classList.add('active');
+            if (pageName === 'portal') navLinks[2].classList.add('active');
+            
+            document.getElementById('navLinks').classList.remove('active');
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+            
+            if (username === 'admin' && password === 'password') {
+                errorMsg.classList.remove('show');
+                successMsg.classList.add('show');
+                setTimeout(() => {
+                    showPage('dashboard');
+                    successMsg.classList.remove('show');
+                    document.getElementById('loginForm').reset();
+                }, 1000);
+            } else {
+                successMsg.classList.remove('show');
+                errorMsg.classList.add('show');
+                setTimeout(() => {
+                    errorMsg.classList.remove('show');
+                }, 3000);
+            }
+            return false;
+        }
+
+        function handleLogout() {
+            showPage('portal');
+        }
+
+        window.onload = setLogo;
+    </script>
+</body>
+</html>
